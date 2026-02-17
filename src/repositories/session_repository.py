@@ -1,7 +1,7 @@
 """Repository for managing user session data."""
 import logging
 from typing import Dict, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ class SessionRepository:
         if not user_id:
             raise ValueError("user_id cannot be empty")
         
-        data["last_updated"] = datetime.utcnow().isoformat()
+        data["last_updated"] = datetime.now(timezone.utc).isoformat()
         self.sessions[user_id] = data
         logger.debug(f"Saved session for user: {user_id}")
 
