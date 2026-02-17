@@ -25,8 +25,10 @@ class SessionRepository:
         if not user_id:
             raise ValueError("user_id cannot be empty")
         
-        data["last_updated"] = datetime.now(timezone.utc).isoformat()
-        self.sessions[user_id] = data
+        # Create a copy to avoid modifying the original dictionary
+        session_data = data.copy()
+        session_data["last_updated"] = datetime.now(timezone.utc).isoformat()
+        self.sessions[user_id] = session_data
         logger.debug(f"Saved session for user: {user_id}")
 
     def get_session(self, user_id: str) -> dict:
